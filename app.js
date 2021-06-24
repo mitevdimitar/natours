@@ -16,6 +16,7 @@ const hpp = require('hpp');
 const cookieParser = require('cookie-parser');
 const compression = require('compression');
 const cors = require('cors');
+const { webhookCheckout } = require('./controllers/bookingController');
 
 const csp = require('express-csp');
 
@@ -112,6 +113,8 @@ const limiter = rateLimit({
   message: 'Too many requests from this IP'
 })
 app.use('api', limiter);
+
+app.post('/webhook-checkout', express.raw({type: 'application/json'}), webhookCheckout);
 
 //body parser, reading data feom body
 app.use(express.json({ limit: '10kb' }));
